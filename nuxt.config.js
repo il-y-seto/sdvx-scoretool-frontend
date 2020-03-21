@@ -34,13 +34,13 @@ export default {
   */
   buildModules: [
     '@nuxt/typescript-build',
+    '@nuxtjs/vuetify',
   ],
   /*
   ** Nuxt.js modules
   */
   modules: [
     "@nuxtjs/axios",
-    "@nuxtjs/vuetify",
   ],
   /*
   ** Build configuration
