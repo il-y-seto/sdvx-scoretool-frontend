@@ -1,7 +1,12 @@
 <template>
-  <div>
-    <nuxt />
-  </div>
+  <v-app>
+    <the-nearnoah-header />
+    <v-content>
+      <v-layout>
+        <nuxt />
+      </v-layout>
+    </v-content>
+  </v-app>
 </template>
 
 <style>
@@ -53,3 +58,13 @@ html {
   background-color: #35495e;
 }
 </style>
+<script>
+import Vue from 'vue'
+import TheNearnoahHeader from '~/components/the-nearnoah-header.vue'
+
+export default Vue.extend({
+  components: {
+    TheNearnoahHeader,
+  },
+})
+</script>
