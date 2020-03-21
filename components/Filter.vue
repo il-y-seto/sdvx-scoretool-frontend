@@ -7,43 +7,44 @@
         v-model="checked"
         :label="box.label"
         :value="box.value"
-      ></v-checkbox>
+      />
     </v-row>
   </v-container>
 </template>
-<style scoped lang="scss">
-</style>
+<style scoped lang="scss"></style>
 
 <script>
-export default {
+import Vue from "vue"
+
+export default Vue.extend({
   data: () => ({
     selected: [],
   }),
   computed: {
     checked: {
-      get () {
+      get() {
         return this.selected
       },
-      set (value) {
+      set(value) {
         this.selected = value
-        this.$emit('updateFilter', this.selected)
+        this.$emit("updateFilter", this.selected)
       },
     },
     lvCheckboxes: () => {
       return [
-        {label: 'Lv15', value: 15},
-        {label: 'Lv16', value: 16},
-        {label: 'Lv17', value: 17},
-        {label: 'Lv18', value: 18},
-        {label: 'Lv19', value: 19},
-        {label: 'Lv20', value: 20},
+        { label: "Lv15", value: 15 },
+        { label: "Lv16", value: 16 },
+        { label: "Lv17", value: 17 },
+        { label: "Lv18", value: 18 },
+        { label: "Lv19", value: 19 },
+        { label: "Lv20", value: 20 },
       ]
-    }
+    },
   },
   methods: {
-    onChange: event => {
+    onChange: (event) => {
       console.log(event)
-    }
-  }
-}
+    },
+  },
+})
 </script>

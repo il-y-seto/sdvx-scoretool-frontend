@@ -3,51 +3,29 @@
     <v-form>
       <v-container>
         <v-row justify="center">
-          <v-col
-            cols="12"
-            md="4"
-          >
-            <v-text-field
-              v-model="playerName1"
-              label="Player 1"
-              required
-            />
+          <v-col cols="12" md="4">
+            <v-text-field v-model="playerName1" label="Player 1" required />
           </v-col>
-          <v-col
-            cols="12"
-            md="4"
-          >
-            <v-text-field
-              v-model="playerName2"
-              label="Player 2"
-              required
-            />
+          <v-col cols="12" md="4">
+            <v-text-field v-model="playerName2" label="Player 2" required />
           </v-col>
-          <v-col
-            cols="12"
-            md="1"
-          >
-            <v-btn
-              color="primary"
-              rounded
-              outlined
-              @click="action"
-            >
+          <v-col cols="12" md="1">
+            <v-btn color="primary" rounded outlined @click="action">
               Compare
             </v-btn>
           </v-col>
         </v-row>
       </v-container>
     </v-form>
-    <level-filter @updateFilter="updateFilter"></level-filter>
+    <level-filter @updateFilter="updateFilter" />
     <score-table
       v-if="hasData"
-      :playerScore="playerData1"
-      :playerName="playerName1"
-      :rivalScore="playerData2"
-      :rivalName="playerName2"
-      :levelFilter="levelFilter"
-    ></score-table>
+      :player-score="playerData1"
+      :player-name="playerName1"
+      :rival-score="playerData2"
+      :rival-name="playerName2"
+      :level-filter="levelFilter"
+    />
   </v-container>
 </template>
 
@@ -58,11 +36,11 @@
 </style>
 
 <script>
-import Vue from 'vue'
-import axios from 'axios'
-import _ from 'lodash'
-import ScoreTable from '~/components/ScoreTable.vue'
-import Filter from '~/components/Filter.vue'
+import Vue from "vue"
+import axios from "axios"
+import _ from "lodash"
+import ScoreTable from "~/components/ScoreTable.vue"
+import Filter from "~/components/Filter.vue"
 
 export default Vue.extend({
   components: {
@@ -71,8 +49,8 @@ export default Vue.extend({
   },
 
   data: () => ({
-    playerName1: '',
-    playerName2: '',
+    playerName1: "",
+    playerName2: "",
     playerData1: {},
     playerData2: {},
     data: [],
@@ -81,11 +59,11 @@ export default Vue.extend({
   }),
 
   computed: {
-    hasData () {
+    hasData() {
       return !_.isEmpty(this.playerData1)
-    }
+    },
   },
-  async created () {
+  async created() {
     if (this.$route.params.name) {
       // ページにアクセスして遅いの嫌だからSSRにしたい感
       this.playerName1 = this.$route.params.name
@@ -94,16 +72,18 @@ export default Vue.extend({
   },
 
   methods: {
-    async action () {
+    async action() {
       if (this.isProduction) {
         if (Object.keys(this.playerData1).length) {
-          this.playerData2 = this.formatScore(await this.callApi(this.playerName2))
+          this.playerData2 = this.formatScore(
+            await this.callApi(this.playerName2)
+          )
           this.data = this.setRivelScore(this.playerData1, this.playerData2)
         } else {
           Promise.all([
             this.callApi(this.playerName1),
-            this.callApi(this.playerName2)
-          ]).then(result => {
+            this.callApi(this.playerName2),
+          ]).then((result) => {
             this.playerData1 = this.formatScore(result[0])
             this.playerData2 = this.formatScore(result[1])
             this.data = this.setRivelScore(this.playerData1, this.playerData2)
@@ -115,10 +95,11 @@ export default Vue.extend({
         // this.data = this.setRivelScore(this.playerData1, this.playerData2)
       }
     },
-    async callApi (playerName) {
+    async callApi(playerName) {
       let response = {}
-      await axios.get(`https://pyzzle.herokuapp.com/api/sdvx/${playerName}`)
-        .then(res => {
+      await axios
+        .get(`https://pyzzle.herokuapp.com/api/sdvx/${playerName}`)
+        .then((res) => {
           if (res.data.profile) {
             response = res.data.profile.tracks
           }
@@ -128,25 +109,44 @@ export default Vue.extend({
     },
     // {id_(難易度): {スコア等}....} の形に変換する
     // 絶対もっとどうにかなるけどJSむずかしい
-    formatScore: scoreData => {
-      return _(scoreData).map(item => {
-        const title = item.title
-        const id = item.id
-        return _(item).omit(['title', 'id']).map((score, difficulty) => {
-          return {...score, id: `${id}_${difficulty}`, title: title, musicId: id, difficulty: difficulty}
-        }).value()
-      }).flatten().mapKeys(v => v.id).value()
+    formatScore: (scoreData) => {
+      return _(scoreData)
+        .map((item) => {
+          const title = item.title
+          const id = item.id
+          return _(item)
+            .omit(["title", "id"])
+            .map((score, difficulty) => {
+              return {
+                ...score,
+                id: `${id}_${difficulty}`,
+                title: title,
+                musicId: id,
+                difficulty: difficulty,
+              }
+            })
+            .value()
+        })
+        .flatten()
+        .mapKeys((v) => v.id)
+        .value()
     },
-    updateFilter (filter) {
+    updateFilter(filter) {
       this.levelFilter = filter
     },
     // ライバルのスコアと比較して譜面ごとの差分要素を追加する
-    setRivelScore (hoge, rivalScores) {
-      return _(hoge).map((score, id) => {
-        const rival = rivalScores[id]
-        return {...score, rivalScore: rival.score, diff: score.score - rival.score}
-      }).value()
-    }
-  }
+    setRivelScore(hoge, rivalScores) {
+      return _(hoge)
+        .map((score, id) => {
+          const rival = rivalScores[id]
+          return {
+            ...score,
+            rivalScore: rival.score,
+            diff: score.score - rival.score,
+          }
+        })
+        .value()
+    },
+  },
 })
 </script>
