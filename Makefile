@@ -34,7 +34,7 @@ build: ## コンテナイメージをビルドする
 .PHONY: build
 
 nuxt-container:
-	docker-compose run nuxt /bin/bash
+	docker-compose run nuxt ash
 .PHONY:n nuxt-container
 
 .DEFAULT_GOAL := help

@@ -1,9 +1,8 @@
-FROM node:13.0.1-stretch
+FROM node:10-alpine
 
 ENV LANG C.UTF-8
 ENV TZ Asia/Tokyo
 
-RUN apt-get update && \
-    apt-get install -y vim
+RUN apk add --update --no-cache py-pip python curl
 
 WORKDIR /opt/app
