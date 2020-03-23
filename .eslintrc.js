@@ -24,6 +24,10 @@ module.exports = {
   ],
   // add your custom rules here
   rules: {
+    // !! で bool キャスト
+    'no-extra-boolean-cast': 0,
+    // && と || 両方使っても良い
+    'no-mixed-operators': 0,
     'semi': [2, 'never'],
     'no-console': 'off',
     'vue/max-attributes-per-line': 'off',

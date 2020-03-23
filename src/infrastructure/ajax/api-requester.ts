@@ -7,7 +7,7 @@ export class ApiRequester {
     this.AxiosInstance = axios
   }
 
-  public async get(path: string) {
+  public async get(path: string): Promise<NuxtAxiosInstance> {
     return this.request("GET", path)
   }
 

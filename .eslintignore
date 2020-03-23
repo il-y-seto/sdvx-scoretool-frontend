@@ -1,0 +1,4 @@
+/.nuxt/*
+/packages/*
+/static/*
+nuxt.config.js
