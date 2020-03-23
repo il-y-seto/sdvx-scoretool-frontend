@@ -1,15 +1,16 @@
 version: '3'
 services:
-    nuxt: &app_base
-        build:
-            context: .
-        environment:
-            PORT: 3000
-            HOST: 0.0.0.0
-        volumes:
-            - ./:/opt/app
-    workspace:
-        <<: *app_base
-        ports:
-            - "3000:3000"
-        command: yarn dev
+  nuxt: &app_base
+    build:
+      context: .
+    env_file: .env
+    environment:
+      PORT: 3000
+      HOST: 0.0.0.0
+    working_dir: /opt/app
+    volumes:
+      - ${APP_PATH}:/opt/app
+  workspace:
+    <<: *app_base
+    ports:
+      - "3000:3000"
