@@ -38,6 +38,10 @@ lint:
 	docker-compose run nuxt yarn lint
 .PHONY: lint
 
+lint-fix:
+	docker-compose run nuxt yarn lintfix
+.PHONY: lint-fix
+
 nuxt-container:
 	docker-compose run nuxt ash
 .PHONY:nuxt-container
