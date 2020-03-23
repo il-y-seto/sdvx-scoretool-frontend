@@ -14,7 +14,7 @@ stop: ## フロントエンドの開発コンテナを停止する
 .PHONY: stop
 
 start:
-	docker-compose run nuxt npm run dev
+	docker-compose up workspace
 .PHONY: start
 
 up:
@@ -33,6 +33,10 @@ restart: ## フロントエンドの開発コンテナを再起動する
 build: ## コンテナイメージをビルドする
 	docker-compose build
 .PHONY: build
+
+lint:
+	docker-compose run nuxt yarn lint
+.PHONY: lint
 
 nuxt-container:
 	docker-compose run nuxt ash
