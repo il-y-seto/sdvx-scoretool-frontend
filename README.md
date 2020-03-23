@@ -2,20 +2,22 @@
 
 > My impressive Nuxt.js project
 
-## Build Setup
+## はじめかた
 
 ```bash
-# install dependencies
-$ yarn install
+# .envファイルをコピー
+$ cp .env.example .env
 
-# serve with hot reload at localhost:3000
-$ yarn dev
+# nuxtのコンテナをビルドして立ち上げ、パッケージの取得等も行う
+$ make dev-install
 
-# build for production and launch server
-$ yarn build
-$ yarn start
+# コンテナを立ち上げる
+$ make up
 
-# generate static project
+# npm run devする
+$ make start
+
+# generate static project(まだうごかない)
 $ yarn generate
 ```
 
