@@ -1,4 +1,5 @@
 dev-install: ## 開発用に動作する状態にする
+	test -f .env || (cp .env.example .env && echo '.env に APP_PATH を設定してください'; exit 1)
 	make build
 	make yarn-install
 	docker-compose up -d
@@ -35,6 +36,6 @@ build: ## コンテナイメージをビルドする
 
 nuxt-container:
 	docker-compose run nuxt ash
-.PHONY:n nuxt-container
+.PHONY:nuxt-container
 
 .DEFAULT_GOAL := help
