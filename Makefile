@@ -46,4 +46,13 @@ nuxt-container:
 	docker-compose run nuxt ash
 .PHONY:nuxt-container
 
+generate:
+	docker-compose run nuxt yarn generate
+.PHONY: generate
+
+deploy-ghpages: # WIP
+	docker-compose run nuxt yarn generate:gh-pages
+	#docker-compose run nuxt yarn deploy
+.PHONY: deploy-ghpages
+
 .DEFAULT_GOAL := help

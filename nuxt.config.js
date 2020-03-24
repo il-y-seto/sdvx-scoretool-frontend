@@ -1,4 +1,11 @@
+// `DEPLOY_ENV` が `GH_PAGES` の場合のみ `router.base = '/<repository-name>/'` を追加する
+const routerBase = process.env.DEPLOY_ENV === 'GH_PAGES' ? {
+  router: {
+    base: '/sdvx-scoretool-frontend/'
+  }
+} : {}
 export default {
+  ...routerBase,
   mode: "universal",
   /*
    ** Headers of the page
@@ -14,7 +21,8 @@ export default {
         content: process.env.npm_package_description || "",
       },
     ],
-    link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
+    // TODO: GithubPagesへのデプロイだとfaviconのリンクおかしくなる可能性
+    link: [{ rel: "icon", type: "image/x-icon", href: "/sdvx-scoretool-frontend/favicon.ico" }],
   },
   /*
    ** Customize the progress-bar color

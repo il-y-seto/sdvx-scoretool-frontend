@@ -9,6 +9,7 @@
     "build": "nuxt build",
     "start": "nuxt start",
     "generate": "nuxt generate",
+    "generate:gh-pages": "DEPLOY_ENV=GH_PAGES nuxt generate",
     "lint": "eslint --ext .js,,ts,.vue .",
     "lintfix": "eslint --fix --ext .js,.ts,.vue ."
   },
@@ -16,6 +17,7 @@
     "@nuxtjs/axios": "^5.9.5",
     "@nuxtjs/vuetify": "^1.11.0",
     "@types/lodash": "^4.14.149",
+    "gh-pages": "^2.2.0",
     "node-sass": "^4.13.1",
     "nuxt": "^2.12.0",
     "nuxt-property-decorator": "^2.5.1",
