@@ -98,7 +98,9 @@ export default Vue.extend({
     async callApi(playerName) {
       let response = {}
       await axios
-        .get(`https://pyzzle.herokuapp.com/api/sdvx/${playerName}`)
+        .get(
+          `https://nearnoah.net/api/showUserData.json?username=${playerName}`
+        )
         .then((res) => {
           if (res.data.profile) {
             response = res.data.profile.tracks
