@@ -1,4 +1,5 @@
 # sdvx-scoretool-frontend
+[![CircleCI](https://circleci.com/gh/il-y-seto/sdvx-scoretool-frontend/tree/master.svg?style=svg)](https://circleci.com/gh/il-y-seto/sdvx-scoretool-frontend/tree/master)
 
 > My impressive Nuxt.js project
 
