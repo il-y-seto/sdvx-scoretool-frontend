@@ -1,7 +1,8 @@
 # sdvx-scoretool-frontend
 [![CircleCI](https://circleci.com/gh/il-y-seto/sdvx-scoretool-frontend/tree/master.svg?style=svg)](https://circleci.com/gh/il-y-seto/sdvx-scoretool-frontend/tree/master)
 
-> My impressive Nuxt.js project
+SDVXのスコアツール
+masterブランチにコミットが積みあがると自動でデプロイされ、[こちら](https://il-y-seto.github.io/sdvx-scoretool-frontend/)で公開されます(実質dev環境)
 
 ## はじめかた
 
@@ -15,12 +16,8 @@ $ make dev-install
 # コンテナを立ち上げる
 $ make up
 
-# npm run devする
+# 必要なコンテナが立ち上がり、localhost:3000(多分)でアクセスすれば閲覧できるようになります(ホットリロードつき)
 $ make start
 
-# generate static project(まだうごかない)
-$ yarn generate
 ```
-
 For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
-# sdvx-scoretool-frontend
