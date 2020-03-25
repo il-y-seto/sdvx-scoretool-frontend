@@ -13,38 +13,30 @@
 </template>
 <style scoped lang="scss"></style>
 
-<script>
-import Vue from "vue"
+<script lang="ts">
+import { Component, Vue } from "nuxt-property-decorator"
 
-export default Vue.extend({
-  data: () => ({
-    selected: [],
-  }),
-  computed: {
-    checked: {
-      get() {
-        return this.selected
-      },
-      set(value) {
-        this.selected = value
-        this.$emit("updateFilter", this.selected)
-      },
-    },
-    lvCheckboxes: () => {
-      return [
-        { label: "Lv15", value: 15 },
-        { label: "Lv16", value: 16 },
-        { label: "Lv17", value: 17 },
-        { label: "Lv18", value: 18 },
-        { label: "Lv19", value: 19 },
-        { label: "Lv20", value: 20 },
-      ]
-    },
-  },
-  methods: {
-    onChange: (event) => {
-      console.log(event)
-    },
-  },
-})
+@Component
+export default class ScoreFilter extends Vue {
+  public selected: Array<string> = []
+
+  public get checked(): Array<string> {
+    return this.selected
+  }
+  public set checked(value) {
+    this.selected = value
+    this.$emit("updateFilter", this.selected)
+  }
+
+  public get lvCheckboxes(): Array<object> {
+    return [
+      { label: "Lv15", value: 15 },
+      { label: "Lv16", value: 16 },
+      { label: "Lv17", value: 17 },
+      { label: "Lv18", value: 18 },
+      { label: "Lv19", value: 19 },
+      { label: "Lv20", value: 20 },
+    ]
+  }
+}
 </script>
