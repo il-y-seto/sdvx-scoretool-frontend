@@ -9,12 +9,13 @@
     "build": "nuxt build",
     "start": "nuxt start",
     "generate": "nuxt generate",
-    "generate:gh-pages": "DEPLOY_ENV=GH_PAGES nuxt generate",
+    "generate:gh-pages": "DEPLOY_ENV=GH_PAGES nuxt-ts generate",
     "deploy:gh-pages": "gh-pages -d dist -m 'chore: update [skip ci]' -t",
     "lint": "eslint --ext .js,,ts,.vue .",
     "lintfix": "eslint --fix --ext .js,.ts,.vue ."
   },
   "dependencies": {
+    "@nuxt/typescript-runtime": "^0.4.0",
     "@nuxtjs/axios": "^5.9.5",
     "@nuxtjs/vuetify": "^1.11.0",
     "@types/lodash": "^4.14.149",
