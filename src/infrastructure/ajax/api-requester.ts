@@ -1,22 +1,18 @@
-import { NuxtAxiosInstance } from "@nuxtjs/axios"
+import { NuxtHTTPInstance } from "@nuxt/http"
 
 export class ApiRequester {
-  protected AxiosInstance: NuxtAxiosInstance
+  protected httpInstance: NuxtHTTPInstance
 
-  public constructor(axios: NuxtAxiosInstance) {
-    this.AxiosInstance = axios
+  public constructor(http: NuxtHTTPInstance) {
+    this.httpInstance = http
   }
 
-  public async get(path: string): Promise<NuxtAxiosInstance> {
-    return this.request("GET", path)
+  public async get<T>(path: string): Promise<T> {
+    return this.request<T>("GET", path)
   }
 
-  protected async request(
-    method: string,
-    url: string
-  ): Promise<NuxtAxiosInstance> {
-    return this.AxiosInstance.get(
-      `https://pyzzle.herokuapp.com/api/sdvx/${url}`
-    )
+  protected async request<T>(method: string, url: string): Promise<T> {
+    // TODO： 現在GETしかないけどそのうちかわる
+    return this.httpInstance.$get<T>(`https://nearnoah.net/api${url}`)
   }
 }

@@ -96,7 +96,7 @@ export default class ScoreTable extends Vue {
   }
 
   public get hasRivalScore(): boolean {
-    return Object.keys(this.rivalScore).length >= 0
+    return Object.keys(this.rivalScore).length > 0
   }
 
   public get headers(): Array<object> {

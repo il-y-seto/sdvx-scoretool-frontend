@@ -36,11 +36,13 @@
 </style>
 
 <script lang="ts">
-import { Component, Vue } from "nuxt-property-decorator"
-import axios from "axios"
+import { Context } from "@nuxt/types"
+import { Component } from "nuxt-property-decorator"
+import { Base } from "../src/vue"
 import _ from "lodash"
 import ScoreTable from "~/components/ScoreTable.vue"
 import ScoreFilter from "~/components/Filter.vue"
+import { UserScore } from "../src/api/score"
 
 @Component({
   components: {
@@ -48,11 +50,11 @@ import ScoreFilter from "~/components/Filter.vue"
     LevelFilter: ScoreFilter,
   },
 })
-export default class IndexPage extends Vue {
+export default class IndexPage extends Base {
   playerName1 = ""
   playerName2 = ""
-  playerData1 = {}
-  playerData2 = {}
+  playerData1: any = {}
+  playerData2: any = {}
   data: any = []
   isProduction = true
   levelFilter: Array<string> = []
@@ -61,30 +63,43 @@ export default class IndexPage extends Vue {
     return !_.isEmpty(this.playerData1)
   }
 
-  public async created(): Promise<void> {
-    if (this.$route.params.name) {
-      // ページにアクセスして遅いの嫌だからSSRにしたい感
-      this.playerName1 = this.$route.params.name
-      this.playerData1 = this.formatScore(await this.callApi(this.playerName1))
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+  public async asyncData(context: Context) {
+    const playerData1 = await context.app
+      .$hoge()
+      .api.score.getUserData("trike1236")
+    return {
+      playerData1,
     }
   }
+
+  // public async created(): Promise<void> {
+  //   if (this.$route.params.name) {
+  //     // ページにアクセスして遅いの嫌だからSSRにしたい感
+  //     this.playerName1 = this.$route.params.name
+  //     this.playerData1 = await this.getUserData(this.playerName1, 1)
+  //   }
+  // }
 
   public async action(): Promise<any> {
     if (this.isProduction) {
       if (Object.keys(this.playerData1).length) {
-        this.playerData2 = this.formatScore(
-          await this.callApi(this.playerName2)
-        )
+        this.playerData2 = await this.getUserData(this.playerName2, 2)
         this.data = this.setRivelScore(this.playerData1, this.playerData2)
       } else {
         Promise.all([
-          this.callApi(this.playerName1),
-          this.callApi(this.playerName2),
-        ]).then((result) => {
-          this.playerData1 = this.formatScore(result[0])
-          this.playerData2 = this.formatScore(result[1])
-          this.data = this.setRivelScore(this.playerData1, this.playerData2)
-        })
+          this.getUserData(this.playerName1, 1),
+          this.getUserData(this.playerName2, 2),
+        ])
+          .then(([playerData1, playerData2]) => {
+            this.playerData1 = playerData1
+            this.playerData2 = playerData2
+            console.log(this.playerData1)
+            this.data = this.setRivelScore(this.playerData1, this.playerData2)
+          })
+          .catch((err) => {
+            console.log(err)
+          })
       }
     } else {
       // this.playerData1 = this.formatScore(json)
@@ -93,42 +108,18 @@ export default class IndexPage extends Vue {
     }
   }
 
-  public async callApi(playerName: any): Promise<any> {
-    let response = {}
-    await axios
-      .get(`https://nearnoah.net/api/showUserData.json?username=${playerName}`)
-      .then((res) => {
-        if (res.data.profile) {
-          response = res.data.profile.tracks
-        }
+  public async getUserData(
+    playerName: string,
+    area: number
+  ): Promise<UserScore[]> {
+    // TODO: promiseの解決から欲しいデータの取得までapiクラスでやるべき
+    return await this.$hoge()
+      .api.score.getUserData(playerName)
+      .catch((err) => {
+        console.log(`area: ${area}, msg: ${err}`)
+        // this.clearNameField(area)
+        throw err
       })
-    // TODO: 取得できなかったときのハンドリング
-    return response
-  }
-
-  // {id_(難易度): {スコア等}....} の形に変換する
-  // 絶対もっとどうにかなるけどJSむずかしい
-  public formatScore(scoreData: any): any {
-    return _(scoreData)
-      .map((item) => {
-        const title = item.title
-        const id = item.id
-        return _(item)
-          .omit(["title", "id"])
-          .map((score, difficulty) => {
-            return {
-              ...score,
-              id: `${id}_${difficulty}`,
-              title: title,
-              musicId: id,
-              difficulty: difficulty,
-            }
-          })
-          .value()
-      })
-      .flatten()
-      .mapKeys((v) => v.id)
-      .value()
   }
 
   public updateFilter(filter: any): void {
