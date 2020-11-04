@@ -2,7 +2,7 @@ import { Api } from "../infrastructure/ajax/api"
 import { UserdataService } from "../userdata-service"
 
 export class ScoreApi extends Api {
-  public async getUserData(userName: string): Promise<any> {
+  public async getUserData(userName: string): Promise<UserScoreHoge[]> {
     return this.apiRequester
       .get<UserData>(`/showUserData.json?username=${userName}`)
       .then((res) => {
@@ -57,6 +57,23 @@ export interface UserScoreDetail {
   uc_count?: number
   perfect_count?: number
 }
+
+export interface UserScoreHoge extends UserScoreDetail {
+  id: string
+  title: string
+  musicId: number
+  dificulty: Dificulty
+}
+
+export type Dificulty =
+  | "novice"
+  | "advanced"
+  | "exhaust"
+  | "maximum"
+  | "infinite"
+  | "grabity"
+  | "hevenly"
+  | "vivid"
 
 export function getDefaultUserScoreDetail(): UserScoreDetail {
   return {
