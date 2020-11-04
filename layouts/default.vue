@@ -1,11 +1,11 @@
 <template>
   <v-app>
     <the-nearnoah-header />
-    <v-content>
+    <v-main>
       <v-layout>
         <nuxt />
       </v-layout>
-    </v-content>
+    </v-main>
   </v-app>
 </template>
 

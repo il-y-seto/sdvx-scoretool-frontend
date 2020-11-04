@@ -1,11 +1,7 @@
 <template>
   <v-container>
     <div id="charts" />
-    <v-data-table
-      :headers="headers"
-      :items="filteredItems"
-      :items-per-page="100"
-    />
+    <v-data-table :headers="headers" :items="data" :items-per-page="100" />
   </v-container>
 </template>
 
@@ -14,10 +10,17 @@
 <script lang="ts">
 import { Component, Vue, Prop } from "nuxt-property-decorator"
 import _ from "lodash"
+import { UserScoreView } from "~/pages/index.vue"
 //import ApexCharts from 'apexcharts'
 
 @Component
 export default class ScoreTable extends Vue {
+  @Prop({
+    type: Array,
+    required: true,
+  })
+  data!: UserScoreView[]
+
   @Prop({
     type: Object,
     required: true,

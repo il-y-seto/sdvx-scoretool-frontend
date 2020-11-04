@@ -20,6 +20,7 @@
     <level-filter @updateFilter="updateFilter" />
     <score-table
       v-if="hasData"
+      :data="data"
       :player-score="playerData1"
       :player-name="playerName1"
       :rival-score="playerData2"
@@ -42,7 +43,12 @@ import { Base } from "../src/vue"
 import _ from "lodash"
 import ScoreTable from "~/components/ScoreTable.vue"
 import ScoreFilter from "~/components/Filter.vue"
-import { UserScore } from "../src/api/score"
+import { UserScoreHoge } from "../src/api/score"
+
+export interface UserScoreView extends UserScoreHoge {
+  rivalScore: number
+  diff: number
+}
 
 @Component({
   components: {
@@ -55,7 +61,7 @@ export default class IndexPage extends Base {
   playerName2 = ""
   playerData1: any = {}
   playerData2: any = {}
-  data: any = []
+  data: UserScoreView[] = []
   isProduction = true
   levelFilter: Array<string> = []
 
@@ -111,7 +117,7 @@ export default class IndexPage extends Base {
   public async getUserData(
     playerName: string,
     area: number
-  ): Promise<UserScore[]> {
+  ): Promise<UserScoreHoge[]> {
     // TODO: promiseの解決から欲しいデータの取得までapiクラスでやるべき
     return await this.$hoge()
       .api.score.getUserData(playerName)
@@ -127,17 +133,20 @@ export default class IndexPage extends Base {
   }
 
   // ライバルのスコアと比較して譜面ごとの差分要素を追加する
-  public setRivelScore(hoge: any, rivalScores: any): any {
-    return _(hoge)
-      .map((score, id) => {
-        const rival = rivalScores[id]
-        return {
-          ...score,
-          rivalScore: rival.score,
-          diff: score.score - rival.score,
-        }
-      })
-      .value()
+  public setRivelScore(
+    userScores: UserScoreHoge[],
+    rivalScores: UserScoreHoge[]
+  ): UserScoreView[] {
+    return userScores.map((scoreData) => {
+      const rival = rivalScores.find((rival) => scoreData.id === rival.id)
+      const playerScore = scoreData?.score ?? 0
+      const rivalScore = rival?.score ?? 0
+      return {
+        ...scoreData,
+        rivalScore: rivalScore,
+        diff: playerScore - rivalScore,
+      }
+    })
   }
 }
 </script>
