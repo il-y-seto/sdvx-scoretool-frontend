@@ -62,11 +62,11 @@ export default class IndexPage extends Vue {
   }
 
   public async created(): Promise<void> {
-    if (this.$route.params.name) {
-      // ページにアクセスして遅いの嫌だからSSRにしたい感
-      this.playerName1 = this.$route.params.name
-      this.playerData1 = this.formatScore(await this.callApi(this.playerName1))
-    }
+    // if (this.$route.params.name) {
+    //   // ページにアクセスして遅いの嫌だからSSRにしたい感
+    //   this.playerName1 = this.$route.params.name
+    //   this.playerData1 = this.formatScore(await this.callApi(this.playerName1))
+    // }
   }
 
   public async action(): Promise<any> {

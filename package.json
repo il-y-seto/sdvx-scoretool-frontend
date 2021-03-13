@@ -18,27 +18,25 @@
     "@nuxtjs/axios": "^5.9.5",
     "@nuxtjs/vuetify": "^1.11.0",
     "@types/lodash": "^4.14.149",
-    "gh-pages": "^2.2.0",
-    "node-sass": "^4.13.1",
-    "nuxt": "^2.12.0",
+    "gh-pages": "^3.1.0",
+    "nuxt": "^2.15.3",
     "nuxt-property-decorator": "^2.5.1",
-    "sass-loader": "^8.0.2"
+    "sass": "^1.32.8",
+    "sass-loader": "^11.0.1"
   },
   "devDependencies": {
-    "@nuxt/typescript-build": "^0.6.0",
-    "@typescript-eslint/eslint-plugin": "^2.24.0",
-    "@typescript-eslint/parser": "^2.24.0",
+    "@nuxt/typescript-build": "^2.1.0",
+    "@typescript-eslint/eslint-plugin": "^4.17.0",
+    "@typescript-eslint/parser": "^4.17.0",
     "babel-eslint": "^10.1.0",
-    "eslint": "^6.8.0",
-    "eslint-config-prettier": "^6.10.1",
-    "eslint-config-standard": "^14.1.1",
-    "eslint-loader": "^3.0.3",
+    "eslint": "^7.22.0",
+    "eslint-loader": "^4.0.2",
     "eslint-plugin-import": "^2.20.1",
     "eslint-plugin-node": "^11.0.0",
     "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-promise": "^4.2.1",
-    "eslint-plugin-standard": "^4.0.1",
-    "eslint-plugin-vue": "^6.2.2",
+    "eslint-plugin-standard": "^5.0.0",
+    "eslint-plugin-vue": "^7.7.0",
     "prettier": "^2.0.1"
   }
 }
