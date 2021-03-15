@@ -1,3 +1,5 @@
+require("dotenv").config()
+
 // `DEPLOY_ENV` が `GH_PAGES` の場合のみ `router.base = '/<repository-name>/'` を追加する
 const routerBase = process.env.DEPLOY_ENV === 'GH_PAGES' ? {
   router: {
@@ -38,11 +40,20 @@ export default {
   /*
    ** Nuxt.js dev-modules
    */
-  buildModules: ["@nuxt/typescript-build", "@nuxtjs/vuetify"],
+  buildModules: [
+    "@nuxt/typescript-build",
+    "@nuxtjs/vuetify",
+    "@nuxtjs/dotenv",
+  ],
   /*
    ** Nuxt.js modules
    */
   modules: ["@nuxtjs/axios"],
+
+  axios: {
+    // baseURL: process.env.API_URL,
+    credentials: true
+  },
   /*
    ** Build configuration
    */
