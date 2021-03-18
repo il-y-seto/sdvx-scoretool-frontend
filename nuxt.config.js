@@ -51,7 +51,7 @@ export default {
   modules: ["@nuxtjs/axios"],
 
   axios: {
-    baseURL: process.env.API_URL,
+    baseURL: "http://localhost:8081/api",
     credentials: true
   },
   /*
