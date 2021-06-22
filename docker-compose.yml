@@ -10,8 +10,13 @@ services:
     working_dir: /opt/app
     volumes:
       - ${APP_PATH}:/opt/app
+    networks:
+      - scoretool-backend_sail
   workspace:
     <<: *app_base
     ports:
       - "3000:3000"
     command: yarn dev
+networks:
+  scoretool-backend_sail:
+    external: true
