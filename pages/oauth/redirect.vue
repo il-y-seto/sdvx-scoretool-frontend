@@ -17,11 +17,10 @@ import { Context } from "@nuxt/types"
 export default class OauthRedirectPage extends Vue {
   public twitterAuthUrl: string = ''
 
-  public redirect() {
-    this.$axios.$get('http://localhost/api/test')
-      .then(data => {
-        return { twitterAuthUrl: data.redirect_url }
-      }).catch(e => console.error({ message: e.message, statusCode: e.statusCode }))
+  public async redirect() {
+    const response = await this.$axios.$get('/oauth/authorize/twitter')
+    console.log(response, response.redirect_url)
+    window.location.href = response.redirect_url
   }
 }
 </script>
