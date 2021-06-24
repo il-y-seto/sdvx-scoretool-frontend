@@ -30,7 +30,7 @@ export default class ScorePage extends Vue {
     { text: "name", value: "name"},
     { text: "difficulty", value: "difficulty"},
     { text: "level", value: "level"},
-    { text: "clear_lump", value: "clear_lump"},
+    { text: "clear_lamp", value: "clear_lamp"},
     { text: "score", value: "score"},
   ]
 }
