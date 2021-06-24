@@ -51,7 +51,7 @@ export default {
   modules: ["@nuxtjs/axios"],
 
   axios: {
-    baseURL: process.env.API_URL,
+    baseURL: "http://localhost:8081/api",
     credentials: true
   },
   /*
@@ -69,12 +69,6 @@ export default {
      */
     extend(config, { isDev, isClient }) {
       if (isDev && isClient) {
-        config.module.rules.push({
-          enforce: "pre",
-          test: /\.(js|vue)$/,
-          loader: "eslint-loader",
-          exclude: /(node_modules)/,
-        })
       }
     },
   },
