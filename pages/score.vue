@@ -18,7 +18,6 @@ export default class ScorePage extends Vue {
     // ssr時はコンテナ間通信になってめんどくさい
     const scores = await context.$axios.get(`http://laravel.test/api/user-score`)
       .then((res) => {
-        console.log(res.data.scores)
         return res.data.scores
       })
     return {

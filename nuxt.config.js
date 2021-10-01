@@ -48,11 +48,30 @@ export default {
   /*
    ** Nuxt.js modules
    */
-  modules: ["@nuxtjs/axios"],
+  modules: [
+    "@nuxtjs/axios",
+    "@nuxtjs/auth-next",
+  ],
+
+  proxy: {
+    '/api/': 'http://laravel.test',
+    '/laravel': {
+      target: 'http://laravel.test',
+      pathRewrite: {'^/laravel': '/'}
+    },
+  },
+  auth: {
+    strategies: {
+      'laravelSanctum': {
+        provider: 'laravel/sanctum',
+        url: '/laravel'
+      },
+    }
+  },
 
   axios: {
-    baseURL: "http://localhost:8081/api",
-    credentials: true
+    credentials: true,
+    proxy: true
   },
   /*
    ** Build configuration

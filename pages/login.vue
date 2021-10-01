@@ -13,19 +13,24 @@
 
 <script lang="ts">
 import { Component, Vue } from "nuxt-property-decorator"
-import axios from "axios"
 
 
 @Component({
+  middleware: 'guest',
 })
 export default class LoginPage extends Vue {
   public email: string = ""
   public password: string = ""
 
   public async login(): Promise<void> {
-    await axios
-      .get(`/hoge`)
-      .then((res) => {
+    await this.$auth.loginWith('laravelSanctum', {
+      data: {
+        // email: this.email,
+        // password: this.password,
+        email: 'trike1236@gmail.com',
+        password: 'pikacchi',
+      }
+    }).then((res) => {
         console.log(res)
       })
   }
