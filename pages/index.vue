@@ -96,7 +96,7 @@ export default class IndexPage extends Vue {
   public async callApi(playerName: any): Promise<any> {
     let response = {}
     await axios
-      .get(`https://nearnoah.net/api/showUserData.json?username=${playerName}`)
+      .get(`http://localhost:8081/api/test`)
       .then((res) => {
         if (res.data.profile) {
           response = res.data.profile.tracks

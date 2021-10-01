@@ -1,17 +1,25 @@
 <template>
-  <v-container>
-    <v-data-table
-      :headers="headers"
-      :items="scores"
-    />
-  </v-container>
+  <div>
+    <filter-header />
+    <v-container>
+      <v-data-table
+        :headers="headers"
+        :items="scores"
+      />
+    </v-container>
+  </div>
 </template>
 
 <script lang="ts">
 import { Context } from "@nuxt/types"
 import { Component, Vue } from "nuxt-property-decorator"
+import FilterHeader from "~/components/filter/Filter.vue"
 
-@Component
+@Component({
+  components:{
+    FilterHeader,
+  }
+})
 export default class ScorePage extends Vue {
   public scores: any = []
   public async asyncData(context: Context) {
