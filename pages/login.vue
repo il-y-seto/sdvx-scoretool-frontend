@@ -32,7 +32,9 @@ export default class LoginPage extends Vue {
       }
     }).then((res) => {
         console.log(res)
-      })
+    })
+    // TODO: y-seto urlのクエリ(redirectUri)見て遷移を行う
+    // await  this.$router.push('/score')
   }
 
   public async externalLogin(service: string): Promise<void> {

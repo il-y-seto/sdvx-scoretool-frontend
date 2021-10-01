@@ -35,9 +35,11 @@ export default class TheNearnoahHeader extends Vue {
   public async logout() {
     await this.$auth.logout()
     console.log('logouted')
+    this.$router.push('/')
   }
 
   public async login() {
-    await this.$router.push('/login')
+    await this.$router.push({path: '/login', query: {redirectUri: encodeURIComponent(this.$route.fullPath)}})
   }
 }
+</script>
