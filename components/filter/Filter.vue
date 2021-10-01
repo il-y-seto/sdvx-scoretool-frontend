@@ -120,7 +120,6 @@
 </style>
 
 <script lang="ts">
-import { Context } from "@nuxt/types"
 import { Component, Vue, Watch } from "nuxt-property-decorator"
 import LevelFilter from "~/components/filter/Level.vue"
 import MultipleToggleFilter from "~/components/filter/MultipleToggle.vue"
@@ -134,15 +133,24 @@ import Statistics from "~/components/filter/Statistics.vue"
   }
 })
 export default class FilterHeader extends Vue {
-  private loader = false
   private loading = false
 
   private submit() {
       this.loading = !this.loading
 
-      setTimeout(() => (this.loading = false), 3000) // TODO: submit
-
-      this.loader = false
+      this.$axios.get('http://localhost:8081/api/user-score', {
+        params: {
+          // TODO
+          // hoge: 'fuga'
+        }
+      }).then((res) =>{
+        console.log(res)
+        // TODO: urlに情報を持たせる
+        // this.$route.query(res.config.params as any)
+      }).finally(() => {
+        setTimeout(() => (this.loading = false), 3000) // TODO: submit
+        // this.loading = false
+      })
   }
 }
 </script>
