@@ -5,6 +5,7 @@
       <v-data-table
         :headers="headers"
         :items="scores"
+        mobile-breakpoint="0"
       />
     </v-container>
   </div>

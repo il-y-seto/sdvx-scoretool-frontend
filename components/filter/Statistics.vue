@@ -94,10 +94,8 @@
       justify-content: start;
     }
     .diff-btn-wrap {
-      margin: 0 50px;
-      .diff-btn {
-        margin: 0 0 0 auto;
-      }
+      width: 100%;
+      text-align: right;
     }
   }
 </style>
