@@ -3,13 +3,29 @@
     <filter-header />
     <v-container>
       <v-data-table
+        class="score-table"
         :headers="headers"
         :items="scores"
         mobile-breakpoint="0"
-      />
+        fixed-header
+      >
+        <template v-slot:header.name="{header}">
+          <div class="name-colomn">
+            {{ header.text }}
+          </div>
+        </template>
+      </v-data-table>
     </v-container>
   </div>
 </template>
+
+<style scoped lang="scss">
+  .score-table {
+    .name-colomn {
+      min-width: 200px;
+    }
+  }
+</style>
 
 <script lang="ts">
 import { Context } from "@nuxt/types"
@@ -35,7 +51,7 @@ export default class ScorePage extends Vue {
   }
 
   public headers: Array<object> = [
-    { text: "name", value: "name"},
+    { text: "name", value: "name", align: "start"},
     { text: "difficulty", value: "difficulty"},
     { text: "level", value: "level"},
     { text: "clear_lamp", value: "clear_lamp"},
