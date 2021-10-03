@@ -28,7 +28,7 @@
             group
             multiple
           >
-            <v-btn v-for="target in targets" :key="target" class="ma-2" :color="target.color == '' ? 'blue-grey accent-4' : target.color" outlined>
+            <v-btn v-for="target in targets" :key="target.value" class="ma-2" :color="target.color == '' ? 'blue-grey accent-4' : target.color" outlined>
               {{ target.value }}
             </v-btn>
           </v-btn-toggle>
@@ -70,7 +70,7 @@ export default class MultipleToggleFilters extends Vue {
   targets: [{value?: string, color: string}];
 
   @Prop({ default: "400" })
-  width: String;
+  width: string;
 
   private show = false;
   private selected: Number[] = []
@@ -89,7 +89,7 @@ export default class MultipleToggleFilters extends Vue {
 
   private set checked(value) {
     this.selected = value
-    this.$emit("updateFilter", this.selected)
+    // this.$emit("updateFilter", this.selected)
     // TODO: apiの引数決まったら渡し方考える
   }
 }

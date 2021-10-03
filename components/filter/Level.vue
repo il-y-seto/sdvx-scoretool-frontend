@@ -1,6 +1,6 @@
 <template>
   <div class="level-filter">
-    <v-row align="center" no-gutters="true">
+    <v-row align="center" :no-gutters="true">
       <v-checkbox
         v-for="lvCheckbox in lvCheckboxes"
         :key="lvCheckbox.value"
