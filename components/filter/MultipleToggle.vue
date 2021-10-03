@@ -58,19 +58,27 @@
 
 
 <script lang="ts">
-import { Context } from "@nuxt/types"
 import { Component, Prop, Vue } from "nuxt-property-decorator"
 
 @Component
 export default class MultipleToggleFilters extends Vue {
-  @Prop({ default: "" })
-  title: string;
+  @Prop({
+    type: String,
+    default: ""
+  })
+  title!: string;
 
-  @Prop({ default: [] })
-  targets: [{value?: string, color: string}];
+  @Prop({
+    type: Object,
+    default: []
+  })
+  targets!: [{value?: string, color: string}];
 
-  @Prop({ default: "400" })
-  width: string;
+  @Prop({
+    type: Number,
+    default: 400,
+  })
+  width!: number;
 
   private show = false;
   private selected: Number[] = []
