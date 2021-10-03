@@ -91,7 +91,7 @@
     .filters {
       display: flex;
       flex-wrap: wrap;
-      justify-content: start;
+      justify-content: flex-start;
     }
     .diff-btn-wrap {
       width: 100%;
