@@ -69,26 +69,34 @@ export default class MultipleToggleFilters extends Vue {
   title!: string;
 
   @Prop({
-    type: Object,
-    default: []
+    type: String,
+    default: ""
   })
-  targets!: [{value?: string, color: string}];
+  paramName!: string;
 
   @Prop({
-    type: Number,
-    default: 400,
+    type: Array,
+    default: []
   })
-  width!: number;
+  targets!: {value?: string, color: string}[];
+
+  @Prop({
+    type: String,
+    default: "400px",
+  })
+  width!: String;
 
   private show = false;
   private selected: Number[] = []
 
   public checkAllCheckboxes(): void {
     this.selected = [...Array(this.targets.length)].map((_, i) => i)
+    this.emitUpdateFilter()
   }
 
   public uncheckAllCheckboxes(): void {
     this.selected = []
+    this.emitUpdateFilter()
   }
 
   private get checked(): Number[] {
@@ -97,8 +105,12 @@ export default class MultipleToggleFilters extends Vue {
 
   private set checked(value) {
     this.selected = value
-    // this.$emit("updateFilter", this.selected)
+    this.emitUpdateFilter()
     // TODO: apiの引数決まったら渡し方考える
+  }
+  
+  private emitUpdateFilter(): void {
+    this.$emit("updateFilter", {[this.paramName]: this.selected})
   }
 }
 </script>

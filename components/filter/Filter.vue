@@ -14,6 +14,8 @@
             {color:"yellow accent-4", value: "PER"}
           ]'
           width="400px"
+          paramName="clearMark"
+          @updateFilter="updateFilter"
          />
         <multiple-toggle-filter
           title="グレード"
@@ -32,6 +34,8 @@
             {value: "998"}
           ]'
           width="400px"
+          paramName="grade"
+          @updateFilter="updateFilter"
          />
         <multiple-toggle-filter
           title="難易度"
@@ -46,6 +50,8 @@
             {color:"red accent-4", value: "VVD"}
           ]'
           width="300px"
+          paramName="difficulty"
+          @updateFilter="updateFilter"
          />
         <multiple-toggle-filter
           title="基本項目"
@@ -62,8 +68,12 @@
             {value: "偏差値"},
             {value: "VOLFORCE"}]'
           width="400px"
+          paramName="baseFilter"
+          @updateFilter="updateFilter"
          />
-        <statistics />
+        <statistics
+          @updateFilter="updateFilter"
+        />
         <v-btn class="align-self-end mb-5"
           :loading="loading"
           :disabled="loading"
@@ -134,15 +144,13 @@ import Statistics from "~/components/filter/Statistics.vue"
 })
 export default class FilterHeader extends Vue {
   private loading = false
+  private filterParams: {[valueName: string]: Number[]} = {};
 
   private submit() {
       this.loading = !this.loading
 
       this.$axios.get('http://localhost:8081/api/user-score', {
-        params: {
-          // TODO
-          // hoge: 'fuga'
-        }
+        params: this.filterParams
       }).then((res) =>{
         console.log(res)
         // TODO: urlに情報を持たせる
@@ -151,6 +159,10 @@ export default class FilterHeader extends Vue {
         setTimeout(() => (this.loading = false), 3000) // TODO: submit
         // this.loading = false
       })
+  }
+
+  private updateFilter(value: {[valueName: string]: Number[]}) {
+    Object.assign(this.filterParams, value)
   }
 }
 </script>
