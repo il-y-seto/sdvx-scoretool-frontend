@@ -45,7 +45,7 @@
             {color:"cyan accent-4", value: "HVN"},
             {color:"red accent-4", value: "VVD"}
           ]'
-          width="200px"
+          width="300px"
          />
         <multiple-toggle-filter
           title="基本項目"

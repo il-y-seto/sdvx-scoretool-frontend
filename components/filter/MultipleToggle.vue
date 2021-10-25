@@ -8,7 +8,7 @@
       color="deep-purple accent-4"
       dark
     >
-      <v-toolbar-title>{{ title }}</v-toolbar-title>
+      <v-toolbar-title class="text-lg-h6">{{ title }}</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-card-actions>
         <v-btn

@@ -9,7 +9,7 @@
         mobile-breakpoint="0"
         fixed-header
       >
-        <template v-slot:header.name="{header}">
+        <template v-slot:[`header.name`]="{header}">
           <div class="name-colomn">
             {{ header.text }}
           </div>
