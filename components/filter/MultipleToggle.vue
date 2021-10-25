@@ -91,7 +91,7 @@ export default class MultipleToggleFilters extends Vue {
   private selected: Number[] = []
 
   private mounted() {
-    console.log(filterStore)
+    console.log(filterStore.getParams)
     // this.selected = filterStore.params.clearMark
   }
 

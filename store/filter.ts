@@ -1,16 +1,14 @@
 import { VuexModule, Module, Mutation, Action } from 'vuex-module-decorators'
 
-export interface IFilterState {
-  params: {
-    // modelとして切り出して良さそう
-    clearMark: Number[],
-    grade: Number[],
-    difficulty: Number[],
-    baseFilter: Number[],
-    ratio: Number[],
-    skillAnalizerAve: Number[],
-    volForceAve: Number[],
-  }
+type Filter = {
+  // modelとして切り出して良さそう
+  clearMark: Number[],
+  grade: Number[],
+  difficulty: Number[],
+  baseFilter: Number[],
+  ratio: Number[],
+  skillAnalizerAve: Number[],
+  volForceAve: Number[],
 }
 
 @Module({
@@ -18,17 +16,8 @@ export interface IFilterState {
   stateFactory: true,
   namespaced: true,
 })
-export class Filter extends VuexModule implements IFilterState {
-  params: {
-    // modelとして切り出して良さそう
-    clearMark: Number[],
-    grade: Number[],
-    difficulty: Number[],
-    baseFilter: Number[],
-    ratio: Number[],
-    skillAnalizerAve: Number[],
-    volForceAve: Number[],
-  } = {
+export default class Filters extends VuexModule {
+  private params: Filter = {
     clearMark: [],
     grade: [],
     difficulty: [],
@@ -38,8 +27,12 @@ export class Filter extends VuexModule implements IFilterState {
     volForceAve: []
   }
 
+  public get getParams() {
+    return this.params
+  }
+  
   @Mutation
-  merge(param: {[valueName: string]: Number[]}) {
+  merge(param: {[paramName: string]: Number[]}) {
     Object.assign(this.params, param)
   }
 
@@ -47,4 +40,5 @@ export class Filter extends VuexModule implements IFilterState {
   async mergeAction(param: {[valueName: string]: Number[]}) {
     this.merge(param)
   }
+
 }
