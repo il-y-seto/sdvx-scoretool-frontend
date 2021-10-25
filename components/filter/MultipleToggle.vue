@@ -59,6 +59,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from "nuxt-property-decorator"
+import { filterStore } from "~/store"
 
 @Component
 export default class MultipleToggleFilters extends Vue {
@@ -89,9 +90,13 @@ export default class MultipleToggleFilters extends Vue {
   private show = false;
   private selected: Number[] = []
 
+  private mounted() {
+    console.log(filterStore)
+    // this.selected = filterStore.params.clearMark
+  }
+
   public checkAllCheckboxes(): void {
     this.selected = [...Array(this.targets.length)].map((_, i) => i)
-    this.emitUpdateFilter()
   }
 
   public uncheckAllCheckboxes(): void {
@@ -106,7 +111,6 @@ export default class MultipleToggleFilters extends Vue {
   private set checked(value) {
     this.selected = value
     this.emitUpdateFilter()
-    // TODO: apiの引数決まったら渡し方考える
   }
   
   private emitUpdateFilter(): void {

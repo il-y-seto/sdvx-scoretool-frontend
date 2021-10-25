@@ -57,7 +57,7 @@
                 {value: "金枠"},
                 {value: "後光"}
               ]'
-              paramName="skillAnalizer"
+              paramName="skillAnalizerAve"
               @updateFilter="updateFilter"
               width="100%"
             />
@@ -75,7 +75,7 @@
                 {value: "インペリアルI"},
                 {value: "インペリアルII"}
               ]'
-              paramName="volForce"
+              paramName="volForceAve"
               @updateFilter="updateFilter"
               width="100%"
             />
