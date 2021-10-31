@@ -32,19 +32,17 @@ export default class OauthCallbackPage extends Vue {
   }
 
   public async mounted() {
-    // ブラウザに残されたクッキーを再利用するため、マウント後に処理
-
-    // const data = {
-    //   oauth_token: this.oauthToken,
-    //   oauth_verifier: this.oauthVerifier,
-    // }
-
-    // TODO: laravelのapiを叩いてトークン等を保存する
-    // const result = await loginService.finish('twitter', data)
-    // if (!result || !result.unregistered) {
-    //   return
-    // }
-
+    const data = {
+      oauth_token: this.oauthToken,
+      oauth_verifier: this.oauthVerifier,
+    }
+    await this.$axios.$get('/api/twitter/callback/login', {
+      params: data,
+    }).then((res) => {
+      // todo: トークンを手動で保存しているが別の方法がありそう
+      // いつ切れるかわからない＋sanctumの仕組みに則っていないのでどこかで不都合が出る可能性がある
+      this.$auth.setUserToken(res.token)
+    })
   }
 }
 </script>

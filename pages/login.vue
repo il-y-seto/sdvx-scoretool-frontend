@@ -22,6 +22,10 @@ export default class LoginPage extends Vue {
   public email: string = ""
   public password: string = ""
 
+  public async mounted() {
+    this.$axios.$get('/laravel/sanctum/csrf-cookie');
+  }
+
   public async login(): Promise<void> {
     await this.$auth.loginWith('laravelSanctum', {
       data: {

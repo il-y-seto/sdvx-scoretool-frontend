@@ -18,7 +18,7 @@ export default class OauthRedirectPage extends Vue {
   public twitterAuthUrl: string = ''
 
   public async redirect() {
-    const response = await this.$axios.$get('/oauth/authorize/twitter')
+    const response = await this.$axios.$get('/api/oauth/authorize/twitter')
     console.log(response, response.redirect_url)
     window.location.href = response.redirect_url
   }
