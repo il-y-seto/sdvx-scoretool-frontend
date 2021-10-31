@@ -15,7 +15,6 @@
           ]'
           width="400px"
           paramName="clearMark"
-          @updateFilter="updateFilter"
          />
         <multiple-toggle-filter
           title="グレード"
@@ -35,7 +34,6 @@
           ]'
           width="400px"
           paramName="grade"
-          @updateFilter="updateFilter"
          />
         <multiple-toggle-filter
           title="難易度"
@@ -51,7 +49,6 @@
           ]'
           width="300px"
           paramName="difficulty"
-          @updateFilter="updateFilter"
          />
         <multiple-toggle-filter
           title="基本項目"
@@ -69,11 +66,8 @@
             {value: "VOLFORCE"}]'
           width="400px"
           paramName="baseFilter"
-          @updateFilter="updateFilter"
          />
-        <statistics
-          @updateFilter="updateFilter"
-        />
+        <statistics />
         <v-btn class="align-self-end mb-5"
           :loading="loading"
           :disabled="loading"
@@ -134,6 +128,7 @@ import { Component, Vue, Watch } from "nuxt-property-decorator"
 import LevelFilter from "~/components/filter/Level.vue"
 import MultipleToggleFilter from "~/components/filter/MultipleToggle.vue"
 import Statistics from "~/components/filter/Statistics.vue"
+import { FilterStore } from "~/store"
 
 @Component({
   components:{
@@ -144,13 +139,11 @@ import Statistics from "~/components/filter/Statistics.vue"
 })
 export default class FilterHeader extends Vue {
   private loading = false
-  private filterParams: {[valueName: string]: Number[]} = {};
 
   private submit() {
       this.loading = !this.loading
-
       this.$axios.get('http://localhost:8081/api/user-score', {
-        params: this.filterParams
+        params: FilterStore.getParams
       }).then((res) =>{
         console.log(res)
         // TODO: urlに情報を持たせる
@@ -159,10 +152,6 @@ export default class FilterHeader extends Vue {
         setTimeout(() => (this.loading = false), 3000) // TODO: submit
         // this.loading = false
       })
-  }
-
-  private updateFilter(value: {[valueName: string]: Number[]}) {
-    Object.assign(this.filterParams, value)
   }
 }
 </script>

@@ -42,7 +42,6 @@
                 {value: "998率"}
               ]'
               paramName="ratio"
-              @updateFilter="updateFilter"
               width="100%"
             />
             <multiple-toggle-filter
@@ -58,7 +57,6 @@
                 {value: "後光"}
               ]'
               paramName="skillAnalizerAve"
-              @updateFilter="updateFilter"
               width="100%"
             />
             <multiple-toggle-filter
@@ -76,7 +74,6 @@
                 {value: "インペリアルII"}
               ]'
               paramName="volForceAve"
-              @updateFilter="updateFilter"
               width="100%"
             />
           </div>
@@ -120,11 +117,5 @@ import MultipleToggleFilter from "~/components/filter/MultipleToggle.vue"
 export default class StaticsFilters extends Vue {
   private show = false;
   public displayDiff = false;
-  private filterParams: {[valueName: string]: Number[]} = {};
-
-  private updateFilter(value: {[valueName: string]: Number[]}) {
-    Object.assign(this.filterParams, value)
-    this.$emit("updateFilter", this.filterParams)
-  }
 }
 </script>

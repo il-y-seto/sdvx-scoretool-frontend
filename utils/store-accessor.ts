@@ -1,12 +1,12 @@
 /* eslint-disable import/no-mutable-exports */
 import { Store } from 'vuex'
 import { getModule } from 'vuex-module-decorators'
-import Filters from '~/store/filter'
+import Filters from '~/store/filters'
 
-let filterStore: Filters
+let FilterStore: Filters
 
 function initialiseStores(store: Store<any>): void {
-  filterStore = getModule(Filters, store)
+  FilterStore = getModule(Filters, store)
 }
 
-export { initialiseStores, filterStore }
+export { initialiseStores, FilterStore }

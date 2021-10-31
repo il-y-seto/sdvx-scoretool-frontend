@@ -59,7 +59,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from "nuxt-property-decorator"
-import { filterStore } from "~/store"
+import { FilterStore } from "~/store"
 
 @Component
 export default class MultipleToggleFilters extends Vue {
@@ -73,7 +73,7 @@ export default class MultipleToggleFilters extends Vue {
     type: String,
     default: ""
   })
-  paramName!: string;
+  paramName!: "clearMark"|"grade"|"difficulty"|"baseFilter"|"ratio"|"skillAnalizerAve"|"volForceAve";
 
   @Prop({
     type: Array,
@@ -90,31 +90,27 @@ export default class MultipleToggleFilters extends Vue {
   private show = false;
   private selected: Number[] = []
 
-  private mounted() {
-    console.log(filterStore.getParams)
-    // this.selected = filterStore.params.clearMark
-  }
-
   public checkAllCheckboxes(): void {
     this.selected = [...Array(this.targets.length)].map((_, i) => i)
+    this.mergeFilter()
   }
 
   public uncheckAllCheckboxes(): void {
     this.selected = []
-    this.emitUpdateFilter()
+    this.mergeFilter()
   }
 
   private get checked(): Number[] {
-    return this.selected
+    return FilterStore.getParams[this.paramName]
   }
 
   private set checked(value) {
     this.selected = value
-    this.emitUpdateFilter()
+    this.mergeFilter()
   }
-  
-  private emitUpdateFilter(): void {
-    this.$emit("updateFilter", {[this.paramName]: this.selected})
+
+  private mergeFilter() {
+    FilterStore.mergeAction({[this.paramName]: this.selected})
   }
 }
 </script>

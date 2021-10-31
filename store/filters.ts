@@ -1,7 +1,8 @@
 import { VuexModule, Module, Mutation, Action } from 'vuex-module-decorators'
 
 type Filter = {
-  // modelとして切り出して良さそう
+  // 切り出して良さそう
+  level: Number[],
   clearMark: Number[],
   grade: Number[],
   difficulty: Number[],
@@ -11,13 +12,12 @@ type Filter = {
   volForceAve: Number[],
 }
 
-@Module({
-  name: 'filter',
-  stateFactory: true,
-  namespaced: true,
-})
+@Module({ name: 'filters', stateFactory: true, namespaced: true })
 export default class Filters extends VuexModule {
+  // todo: どこかで各パラメータのバリデーションを挟む
+  // 操作の度にここに生やしたprivateメソッドとかで検証すればよさそう？
   private params: Filter = {
+    level: [],
     clearMark: [],
     grade: [],
     difficulty: [],
@@ -30,15 +30,14 @@ export default class Filters extends VuexModule {
   public get getParams() {
     return this.params
   }
-  
+
   @Mutation
   merge(param: {[paramName: string]: Number[]}) {
     Object.assign(this.params, param)
   }
 
-  @Action
-  async mergeAction(param: {[valueName: string]: Number[]}) {
+  @Action({ rawError: true })
+  mergeAction(param: {[paramName: string]: Number[]}) {
     this.merge(param)
   }
-
 }
