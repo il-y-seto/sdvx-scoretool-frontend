@@ -36,6 +36,7 @@
 <script lang="ts">
 import { Context } from "@nuxt/types"
 import { Component, Vue } from "nuxt-property-decorator"
+import { FilterStore } from "~/store"
 
 @Component
 export default class LevelFilter extends Vue {
@@ -48,20 +49,26 @@ export default class LevelFilter extends Vue {
 
   public checkAllCheckboxes(): void {
     this.selected = [...Array(this.levelNum)].map((_, i) => i + 1)
+    this.mergeFilter()
   }
 
   public uncheckAllCheckboxes(): void {
     this.selected = []
+    this.mergeFilter()
   }
 
   public selected: Number[] = []
 
   public get checked(): Number[] {
-    return this.selected
+    return FilterStore.getParams.level
   }
   public set checked(value) {
     this.selected = value
-    this.$emit("updateFilter", this.selected)
+    this.mergeFilter()
+  }
+
+  private mergeFilter() {
+    FilterStore.mergeAction({level: this.selected})
   }
 }
 </script>

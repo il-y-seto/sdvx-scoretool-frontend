@@ -41,6 +41,7 @@
                 {value: "995率"},
                 {value: "998率"}
               ]'
+              paramName="ratio"
               width="100%"
             />
             <multiple-toggle-filter
@@ -55,6 +56,7 @@
                 {value: "金枠"},
                 {value: "後光"}
               ]'
+              paramName="skillAnalizerAve"
               width="100%"
             />
             <multiple-toggle-filter
@@ -71,6 +73,7 @@
                 {value: "インペリアルI"},
                 {value: "インペリアルII"}
               ]'
+              paramName="volForceAve"
               width="100%"
             />
           </div>

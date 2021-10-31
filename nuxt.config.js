@@ -66,7 +66,8 @@ export default {
         provider: 'laravel/sanctum',
         url: '/laravel'
       },
-    }
+    },
+    vuex: false
   },
 
   axios: {

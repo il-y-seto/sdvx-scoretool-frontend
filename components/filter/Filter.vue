@@ -14,6 +14,7 @@
             {color:"yellow accent-4", value: "PER"}
           ]'
           width="400px"
+          paramName="clearMark"
          />
         <multiple-toggle-filter
           title="グレード"
@@ -32,6 +33,7 @@
             {value: "998"}
           ]'
           width="400px"
+          paramName="grade"
          />
         <multiple-toggle-filter
           title="難易度"
@@ -45,7 +47,8 @@
             {color:"cyan accent-4", value: "HVN"},
             {color:"red accent-4", value: "VVD"}
           ]'
-          width="200px"
+          width="300px"
+          paramName="difficulty"
          />
         <multiple-toggle-filter
           title="基本項目"
@@ -62,6 +65,7 @@
             {value: "偏差値"},
             {value: "VOLFORCE"}]'
           width="400px"
+          paramName="baseFilter"
          />
         <statistics />
         <v-btn class="align-self-end mb-5"
@@ -124,6 +128,7 @@ import { Component, Vue, Watch } from "nuxt-property-decorator"
 import LevelFilter from "~/components/filter/Level.vue"
 import MultipleToggleFilter from "~/components/filter/MultipleToggle.vue"
 import Statistics from "~/components/filter/Statistics.vue"
+import { FilterStore } from "~/store"
 
 @Component({
   components:{
@@ -135,14 +140,15 @@ import Statistics from "~/components/filter/Statistics.vue"
 export default class FilterHeader extends Vue {
   private loading = false
 
+  private mounted() {
+    FilterStore.load()
+  }
+
   private submit() {
       this.loading = !this.loading
-
+      FilterStore.save() // TODO: 基本項目はここで送らない
       this.$axios.get('http://localhost:8081/api/user-score', {
-        params: {
-          // TODO
-          // hoge: 'fuga'
-        }
+        params: FilterStore.getParams
       }).then((res) =>{
         console.log(res)
         // TODO: urlに情報を持たせる

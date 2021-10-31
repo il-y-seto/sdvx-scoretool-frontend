@@ -8,7 +8,7 @@
       color="deep-purple accent-4"
       dark
     >
-      <v-toolbar-title>{{ title }}</v-toolbar-title>
+      <v-toolbar-title class="text-lg-h6">{{ title }}</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-card-actions>
         <v-btn
@@ -59,6 +59,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from "nuxt-property-decorator"
+import { FilterStore } from "~/store"
 
 @Component
 export default class MultipleToggleFilters extends Vue {
@@ -69,36 +70,47 @@ export default class MultipleToggleFilters extends Vue {
   title!: string;
 
   @Prop({
-    type: Object,
-    default: []
+    type: String,
+    default: ""
   })
-  targets!: [{value?: string, color: string}];
+  paramName!: "clearMark"|"grade"|"difficulty"|"baseFilter"|"ratio"|"skillAnalizerAve"|"volForceAve";
 
   @Prop({
-    type: Number,
-    default: 400,
+    type: Array,
+    default: []
   })
-  width!: number;
+  targets!: {value?: string, color: string}[];
+
+  @Prop({
+    type: String,
+    default: "400px",
+  })
+  width!: String;
 
   private show = false;
   private selected: Number[] = []
 
   public checkAllCheckboxes(): void {
     this.selected = [...Array(this.targets.length)].map((_, i) => i)
+    this.mergeFilter()
   }
 
   public uncheckAllCheckboxes(): void {
     this.selected = []
+    this.mergeFilter()
   }
 
   private get checked(): Number[] {
-    return this.selected
+    return FilterStore.getParams[this.paramName]
   }
 
   private set checked(value) {
     this.selected = value
-    // this.$emit("updateFilter", this.selected)
-    // TODO: apiの引数決まったら渡し方考える
+    this.mergeFilter()
+  }
+
+  private mergeFilter() {
+    FilterStore.mergeAction({[this.paramName]: this.selected})
   }
 }
 </script>
