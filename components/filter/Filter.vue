@@ -124,7 +124,7 @@
 </style>
 
 <script lang="ts">
-import { Component, Vue, Watch } from "nuxt-property-decorator"
+import { Component, Prop, Vue } from "nuxt-property-decorator"
 import LevelFilter from "~/components/filter/Level.vue"
 import MultipleToggleFilter from "~/components/filter/MultipleToggle.vue"
 import Statistics from "~/components/filter/Statistics.vue"
@@ -138,25 +138,19 @@ import { FilterStore } from "~/store"
   }
 })
 export default class FilterHeader extends Vue {
-  private loading = false
+  @Prop({
+    type: Boolean,
+    default: false,
+  })
+  loading!: boolean
 
   private mounted() {
     FilterStore.load()
   }
 
-  private submit() {
-      this.loading = !this.loading
-      FilterStore.save() // TODO: 基本項目はここで送らない
-      this.$axios.get('http://localhost:8081/api/user-score', {
-        params: FilterStore.getParams
-      }).then((res) =>{
-        console.log(res)
-        // TODO: urlに情報を持たせる
-        // this.$route.query(res.config.params as any)
-      }).finally(() => {
-        setTimeout(() => (this.loading = false), 3000) // TODO: submit
-        // this.loading = false
-      })
+  private async submit() {
+    FilterStore.save() // TODO: 基本項目はここで送らない
+    const hoge = this.$emit('hoge')
   }
 }
 </script>
