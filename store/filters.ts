@@ -36,8 +36,31 @@ export default class Filters extends VuexModule {
     Object.assign(this.params, param)
   }
 
+  @Mutation
+  save() {
+    localStorage.setItem('filter', JSON.stringify(this.params))
+  }
+
+  @Mutation
+  load() {
+    const loadedParams = localStorage.getItem('filter')
+    if (loadedParams !== null) {
+      this.params = JSON.parse(loadedParams)
+    }
+  }
+
   @Action({ rawError: true })
   mergeAction(param: {[paramName: string]: Number[]}) {
     this.merge(param)
+  }
+
+  @Action({ rawError: true })
+  saveAction() {
+    this.save()
+  }
+
+  @Action({ rawError: true })
+  loadAction() {
+    this.load()
   }
 }

@@ -140,8 +140,13 @@ import { FilterStore } from "~/store"
 export default class FilterHeader extends Vue {
   private loading = false
 
+  private mounted() {
+    FilterStore.load()
+  }
+
   private submit() {
       this.loading = !this.loading
+      FilterStore.save() // TODO: 基本項目はここで送らない
       this.$axios.get('http://localhost:8081/api/user-score', {
         params: FilterStore.getParams
       }).then((res) =>{
