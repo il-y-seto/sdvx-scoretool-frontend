@@ -1,6 +1,9 @@
 <template>
   <div>
-    <filter-header />
+    <filter-header
+      :loading="loading"
+      @hoge="updateScores()"
+    />
     <v-container>
       <v-data-table
         class="score-table"
@@ -31,6 +34,7 @@
 import { Context } from "@nuxt/types"
 import { Component, Vue } from "nuxt-property-decorator"
 import FilterHeader from "~/components/filter/Filter.vue"
+import { FilterStore } from "~/store"
 
 @Component({
   components:{
@@ -39,6 +43,8 @@ import FilterHeader from "~/components/filter/Filter.vue"
 })
 export default class ScorePage extends Vue {
   public scores: any = []
+  public loading: boolean = false
+
   public async asyncData(context: Context) {
     // ssr時はコンテナ間通信になってめんどくさい
     const scores = await context.$axios.get(`http://laravel.test/api/user-score`)
@@ -57,5 +63,21 @@ export default class ScorePage extends Vue {
     { text: "clear_lamp", value: "clear_lamp"},
     { text: "score", value: "score"},
   ]
+
+  public updateScores()
+  {
+    this.loading = true
+    this.$axios.get(`/api/user-score`, {
+      params: FilterStore.parseUriQueryString
+    }).then((res) => {
+      // TODO: urlに情報を持たせる
+      // this.$route.query(res.config.params as any)
+      // this.reload()
+      console.log(res)
+    }).finally(() => {
+      setTimeout(() => (this.loading = false), 3 * 1000) // TODO: submit
+      // this.loading = false
+    })
+  }
 }
 </script>

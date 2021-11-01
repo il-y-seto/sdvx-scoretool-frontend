@@ -31,6 +31,15 @@ export default class Filters extends VuexModule {
     return this.params
   }
 
+  public get parseUriQueryString() {
+    // this.getParams.map(hogehoge)
+    return {
+      level: 5,
+      difficulty: 100,
+      grade: 500,
+    }
+  }
+
   @Mutation
   merge(param: {[paramName: string]: Number[]}) {
     Object.assign(this.params, param)
