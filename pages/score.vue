@@ -9,6 +9,8 @@
         class="score-table"
         :headers="headers"
         :items="scores"
+        :hide-default-footer="true"
+        :options="{itemsPerPage: perPage}"
         mobile-breakpoint="0"
         fixed-header
       >
@@ -18,6 +20,12 @@
           </div>
         </template>
       </v-data-table>
+      <v-pagination
+        :length="lastPage"
+        :value="currentPage"
+        @input="movePage"
+      >
+      </v-pagination>
     </v-container>
   </div>
 </template>
@@ -42,17 +50,29 @@ import { FilterStore } from "~/store"
   }
 })
 export default class ScorePage extends Vue {
+  public readonly perPage: number =20
   public scores: any = []
+  public currentPage: number = 1
+  public lastPage: number = 1
   public loading: boolean = false
 
   public async asyncData(context: Context) {
-    // ssr時はコンテナ間通信になってめんどくさい
-    const scores = await context.$axios.get(`http://laravel.test/api/user-score`)
+    const data = await context.$axios.get(`/api/user-score`, {
+      params: {
+        userId: 1,
+        // todo: クエリストリングを読む
+        currentPage: 1,
+        perPage: 20,
+      }
+    })
       .then((res) => {
-        return res.data.scores
+        console.log(res.data)
+        return res.data
       })
     return {
-      scores,
+      scores: data.scores,
+      currentPage: data.currentPage,
+      lastPage: data.lastPage,
     }
   }
 
@@ -64,16 +84,31 @@ export default class ScorePage extends Vue {
     { text: "score", value: "score"},
   ]
 
-  public updateScores()
+  public async movePage(event: number)
+  {
+    if (this.currentPage === event) {
+      return
+    }
+    await this.updateScores(event)
+  }
+
+  public async updateScores(page: number = this.currentPage)
   {
     this.loading = true
     this.$axios.get(`/api/user-score`, {
-      params: FilterStore.parseUriQueryString
+      params: {
+        userId: 1,
+        // todo: paginatorもvuexに持たせる
+        currentPage: page,
+        perPage: this.perPage,
+        ...FilterStore.parseUriQueryString,
+      }
     }).then((res) => {
       // TODO: urlに情報を持たせる
       // this.$route.query(res.config.params as any)
       // this.reload()
-      console.log(res)
+      this.scores = res.data.scores
+      this.currentPage = res.data.currentPage
     }).finally(() => {
       setTimeout(() => (this.loading = false), 3 * 1000) // TODO: submit
       // this.loading = false
