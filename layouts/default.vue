@@ -2,9 +2,9 @@
   <v-app>
     <the-nearnoah-header />
     <v-main>
-      <v-layout>
+      <!-- <v-layout> -->
         <nuxt />
-      </v-layout>
+      <!-- </v-layout> -->
     </v-main>
   </v-app>
 </template>

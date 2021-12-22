@@ -24,10 +24,10 @@
     width: 80%;
     margin: auto;
     .v-input {
-      margin-right: 15px;
+      margin-right: 10px;
     }
     .v-btn {
-      margin-right: 15px;
+      margin-right: 10px;
     }
   }
 </style>

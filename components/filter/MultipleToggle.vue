@@ -13,14 +13,14 @@
       <v-card-actions>
         <v-btn
           icon
-          @click="show = !show"
+          @click="$emit('toggleIsShow')"
         >
-          <v-icon>{{ show ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
+          <v-icon>{{ isShow ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
         </v-btn>
       </v-card-actions>
     </v-toolbar>
     <v-expand-transition>
-      <div v-show="show">
+      <div v-show="isShow">
         <v-card-text>
           <v-btn-toggle
             class="d-block"
@@ -87,7 +87,12 @@ export default class MultipleToggleFilters extends Vue {
   })
   width!: String;
 
-  private show = false;
+  @Prop({
+    type: Boolean,
+    default: false,
+  })
+  isShow!: Boolean;
+
   private selected: Number[] = []
 
   public checkAllCheckboxes(): void {

@@ -13,69 +13,25 @@
       <v-card-actions>
         <v-btn
           icon
-          @click="show = !show"
+          @click="$emit('toggleIsShow')"
         >
-          <v-icon>{{ show ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
+          <v-icon>{{ isShow ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
         </v-btn>
       </v-card-actions>
     </v-toolbar>
     <v-expand-transition>
-      <div v-show="show">
+      <div v-show="isShow">
         <v-card-text class="card-text">
           <div class="filters">
-            <multiple-toggle-filter
-              title="割合"
-              :targets='[
-                {color: "blue-grey accent-4", value: "Crash率"},
-                {color: "green accent-4", value: "COMP率"},
-                {color: "purple accent-4", value: "EX COMP率"},
-                {color: "red accent-4", value: "UC率"},
-                {color:"yellow accent-4", value: "PER率"},
-                {value: "A率"},
-                {value: "A+率"},
-                {value: "AA率"},
-                {value: "AA+率"},
-                {value: "AAA率"},
-                {value: "AAA+率"},
-                {value: "S率"},
-                {value: "995率"},
-                {value: "998率"}
-              ]'
-              paramName="ratio"
-              width="100%"
-            />
-            <multiple-toggle-filter
-              title="スキアナ別平均"
-              :targets='[
-                {value: "全体"},
-                {value: "～雷電"},
-                {value: "魔騎士"},
-                {value: "剛力羅"},
-                {value: "或帝滅斗"},
-                {value: "無銀"},
-                {value: "金枠"},
-                {value: "後光"}
-              ]'
-              paramName="skillAnalizerAve"
-              width="100%"
-            />
-            <multiple-toggle-filter
-              title="ボルフォース別平均"
-              :targets='[
-                {value: "〜アルジェント"},
-                {value: "エルドラI・II"},
-                {value: "エルドラIII・IV"},
-                {value: "クリムゾンI"},
-                {value: "スコア"},
-                {value: "クリムゾンII"},
-                {value: "クリムゾンIII"},
-                {value: "クリムゾンIV"},
-                {value: "インペリアルI"},
-                {value: "インペリアルII"}
-              ]'
-              paramName="volForceAve"
-              width="100%"
-            />
+          <multiple-toggle-filter
+            v-for="filter in filters" :key="filter.name"
+            :paramName="filter.name"
+            :title="filter.getTitle()"
+            :targets="filter.getTargets()"
+            :width="filter.getWidth()"
+            :isShow="filter.getIsShow()"
+            @toggleIsShow="toggleIsShow(filter.name)"
+          />
           </div>
           <div class="diff-btn-wrap">
             <v-btn class="diff-btn" color="primary" @click="displayDiff = !displayDiff" :outlined="!displayDiff">
@@ -90,7 +46,6 @@
 
 <style scoped lang="scss">
   .statics-filter {
-    margin: 10px;
     .filters {
       display: flex;
       flex-wrap: wrap;
@@ -108,6 +63,7 @@
 import { Context } from "@nuxt/types"
 import { Component, Prop, Vue } from "nuxt-property-decorator"
 import MultipleToggleFilter from "~/components/filter/MultipleToggle.vue"
+import FilterComponentParams from "~/components/filter/FilterComponentParams"
 
 @Component({
   components: {
@@ -115,7 +71,82 @@ import MultipleToggleFilter from "~/components/filter/MultipleToggle.vue"
   }
 })
 export default class StaticsFilters extends Vue {
-  private show = false;
+  @Prop({
+    type: Boolean,
+    default: false,
+  })
+  isShow!: Boolean;
+
   public displayDiff = false;
+
+  private filters: FilterComponentParams[] = []
+
+  private mounted() {
+    this.filters.push(
+      new FilterComponentParams(
+        'ratio',
+        '割合',
+        [
+          {color: "blue-grey accent-4", value: "Crash率"},
+          {color: "green accent-4", value: "COMP率"},
+          {color: "purple accent-4", value: "EX COMP率"},
+          {color: "red accent-4", value: "UC率"},
+          {color:"yellow accent-4", value: "PER率"},
+          {value: "A率"},
+          {value: "A+率"},
+          {value: "AA率"},
+          {value: "AA+率"},
+          {value: "AAA率"},
+          {value: "AAA+率"},
+          {value: "S率"},
+          {value: "995率"},
+          {value: "998率"}
+        ],
+        '95%'
+      ),
+      new FilterComponentParams(
+        'skillAnalizerAve',
+        'スキアナ別平均',
+        [
+          {value: "全体"},
+          {value: "～雷電"},
+          {value: "魔騎士"},
+          {value: "剛力羅"},
+          {value: "或帝滅斗"},
+          {value: "無銀"},
+          {value: "金枠"},
+          {value: "後光"}
+        ],
+        "95%"
+      ),
+      new FilterComponentParams(
+        'volForceAve',
+        'ボルフォース別平均',
+        [
+          {value: "〜アルジェント"},
+          {value: "エルドラI・II"},
+          {value: "エルドラIII・IV"},
+          {value: "クリムゾンI"},
+          {value: "スコア"},
+          {value: "クリムゾンII"},
+          {value: "クリムゾンIII"},
+          {value: "クリムゾンIV"},
+          {value: "インペリアルI"},
+          {value: "インペリアルII"}
+        ],
+        "95%"
+      ),
+    )
+  }
+
+  private toggleIsShow(filterName: string) {
+    this.filters.forEach(function (filter) {
+      if (filter.getName() === filterName) {
+        filter.toggleIsShow()
+      } else {
+        filter.closeCard()
+      }
+    })
+  }
 }
 </script>
