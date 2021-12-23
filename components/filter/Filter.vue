@@ -13,7 +13,7 @@
           :isShow="filter.getIsShow()"
           @toggleIsShow="toggleIsShow(filter.name)"
         />
-        <statistics
+        <statistics-filter
           :isShow="isShowStatistics"
           @toggleIsShow="toggleIsShow('statistics')"
         />
@@ -70,13 +70,28 @@
       }
     }
   }
+
+  @media (max-width: 768px) {
+  .filter-header {
+    width: 100%;
+    h3 {
+      text-align: center;
+    }
+    .multiple-toggle-filter {
+      width: 100% !important;
+    }
+    .statistics-filter {
+      width: 100% !important;
+    }
+  }
+}
 </style>
 
 <script lang="ts">
 import { Component, Prop, Vue } from "nuxt-property-decorator"
 import LevelFilter from "~/components/filter/Level.vue"
 import MultipleToggleFilter from "~/components/filter/MultipleToggle.vue"
-import Statistics from "~/components/filter/Statistics.vue"
+import StatisticsFilter from "~/components/filter/Statistics.vue"
 import { FilterStore } from "~/store"
 import FilterComponentParams from "~/components/filter/FilterComponentParams"
 
@@ -84,7 +99,7 @@ import FilterComponentParams from "~/components/filter/FilterComponentParams"
   components:{
     LevelFilter,
     MultipleToggleFilter,
-    Statistics,
+    StatisticsFilter,
   }
 })
 export default class FilterHeader extends Vue {
@@ -140,27 +155,30 @@ export default class FilterHeader extends Vue {
           {color: "yellow accent-4", value: "ADV"},
           {color: "deep-orange accent-4", value: "EXH"},
           {color: "light-green accent-4", value: "MXM"},
-          {color:"pink accent-4", value: "INF"},
-          {color:"orange accent-4", value: "GRV"},
-          {color:"cyan accent-4", value: "HVN"},
-          {color:"red accent-4", value: "VVD"}
+          {color: "pink accent-4", value: "INF"},
+          {color: "orange accent-4", value: "GRV"},
+          {color: "cyan accent-4", value: "HVN"},
+          {color: "red accent-4", value: "VVD"}
         ],
         '300px'
       ),
       new FilterComponentParams(
         'baseFilter',
-        '難易度',
+        '基本項目',
         [
-          {color: "light-blue accent-4", value: "NOV"},
-          {color: "yellow accent-4", value: "ADV"},
-          {color: "deep-orange accent-4", value: "EXH"},
-          {color: "light-green accent-4", value: "MXM"},
-          {color:"pink accent-4", value: "INF"},
-          {color:"orange accent-4", value: "GRV"},
-          {color:"cyan accent-4", value: "HVN"},
-          {color:"red accent-4", value: "VVD"}
+          {value: "難易度"},
+          {value: "レベル"},
+          {value: "クリアマーク"},
+          {value: "グレード"},
+          {value: "スコア"},
+          {value: "PLAYED"},
+          {value: "CLEAR"},
+          {value: "UC"},
+          {value: "PERFECT"},
+          {value: "偏差値"},
+          {value: "VOLFORCE"}
         ],
-        '300px'
+        '400px'
       ),
     )
   }
@@ -183,7 +201,6 @@ export default class FilterHeader extends Vue {
 
   private async submit() {
     FilterStore.save() // TODO: 基本項目はここで送らない
-    const hoge = this.$emit('hoge')
   }
 }
 </script>

@@ -8,6 +8,8 @@
         :label="lvCheckbox.label"
         :value="lvCheckbox.value"
         color="deep-purple accent-3"
+        height="5px"
+        class="pa-0"
       />
       <v-btn elevation="2" @click="checkAllCheckboxes">
         全レベルON
@@ -24,7 +26,7 @@
     width: 80%;
     margin: auto;
     .v-input {
-      margin-right: 10px;
+      margin-right: 6px;
     }
     .v-btn {
       margin-right: 10px;

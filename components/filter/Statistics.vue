@@ -1,6 +1,6 @@
 <template>
   <v-card
-    class="statics-filter"
+    class="statistics-filter"
     width="400px"
   >
     <v-toolbar
@@ -23,15 +23,15 @@
       <div v-show="isShow">
         <v-card-text class="card-text">
           <div class="filters">
-          <multiple-toggle-filter
-            v-for="filter in filters" :key="filter.name"
-            :paramName="filter.name"
-            :title="filter.getTitle()"
-            :targets="filter.getTargets()"
-            :width="filter.getWidth()"
-            :isShow="filter.getIsShow()"
-            @toggleIsShow="toggleIsShow(filter.name)"
-          />
+            <multiple-toggle-filter
+              v-for="filter in filters" :key="filter.name"
+              :paramName="filter.name"
+              :title="filter.getTitle()"
+              :targets="filter.getTargets()"
+              :width="filter.getWidth()"
+              :isShow="filter.getIsShow()"
+              @toggleIsShow="toggleIsShow(filter.name)"
+            />
           </div>
           <div class="diff-btn-wrap">
             <v-btn class="diff-btn" color="primary" @click="displayDiff = !displayDiff" :outlined="!displayDiff">
@@ -45,7 +45,8 @@
 </template>
 
 <style scoped lang="scss">
-  .statics-filter {
+  .statistics-filter {
+    margin: 10px;
     .filters {
       display: flex;
       flex-wrap: wrap;
@@ -54,6 +55,11 @@
     .diff-btn-wrap {
       width: 100%;
       text-align: right;
+    }
+  }
+  @media (max-width: 768px) {
+    .card-text {
+      padding: 0 !important;
     }
   }
 </style>
@@ -70,7 +76,7 @@ import FilterComponentParams from "~/components/filter/FilterComponentParams"
     MultipleToggleFilter,
   }
 })
-export default class StaticsFilters extends Vue {
+export default class StatisticsFilter extends Vue {
   @Prop({
     type: Boolean,
     default: false,
